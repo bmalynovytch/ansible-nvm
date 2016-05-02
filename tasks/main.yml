@@ -1,0 +1,9 @@
+---
+- include: setup.yml
+  tags: nvm
+  when: not run_mode is defined or run_mode == 'full' or run_mode == 'bootstrap'
+
+- include: config.yml
+  tags: nvm
+  when: not run_mode is defined or run_mode == 'full' or run_mode == 'update'
+

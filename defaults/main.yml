@@ -1,0 +1,5 @@
+---
+nvm:
+  user: ubuntu
+  version: v0.4.0
+  node_version: '0.10'

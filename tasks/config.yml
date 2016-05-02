@@ -1,0 +1,44 @@
+---
+- name: Install nvm
+  become: yes
+  become_user: "{{ nvm.user }}"
+  git:
+  args:
+    repo: https://github.com/creationix/nvm.git
+    dest: ~/.nvm
+    version: "{{ nvm.version }}"
+
+- name: Source nvm in ~/.profile
+  become: yes
+  become_user: "{{ nvm.user }}"
+  lineinfile: >
+    dest=~/.profile
+    line="source ~/.nvm/nvm.sh"
+    create=yes
+
+- name: Install {{ nvm.node_version }}
+  shell: "nvm install {{ nvm.node_version }}"
+  become: yes
+  become_user: "{{ nvm.user }}"
+  args:
+    executable: /bin/bash
+  register: nvm_install_result
+  changed_when: "'is already installed.' not in nvm_install_result.stdout"
+
+- name: Check if {{ nvm.node_version }} is the default node version
+  shell: "nvm ls | grep -e 'default -> {{ nvm.node_version }}'"
+  register: nvm_check_default
+  become: yes
+  become_user: "{{ nvm.user }}"
+  args:
+    executable: /bin/bash
+  changed_when: false
+  failed_when: false
+
+- name: Set default node version to {{ nvm.node_version }}
+  shell: "nvm alias default {{ nvm.node_version }}"
+  become: yes
+  become_user: "{{ nvm.user }}"
+  args:
+    executable: /bin/bash
+  when: nvm_check_default.rc != 0
