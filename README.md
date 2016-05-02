@@ -1,4 +1,4 @@
-This Ansible role is a rework of [leonidas' ansible-nvm](https://github.com/leonidas/ansible-nvm)
+This Ansible role is a rework of [leonidas' ansible-nvm](https://github.com/leonidas/ansible-nvm), with compatibility with Ansible 2.0+
 
 nvm
 ========
