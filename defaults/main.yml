@@ -1,5 +1,5 @@
 ---
 nvm:
   user: ubuntu
-  version: v0.4.0
-  node_version: '0.10'
+  version: v0.31.0
+  node_version: v4.4.3

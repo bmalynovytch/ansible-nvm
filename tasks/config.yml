@@ -12,21 +12,24 @@
   become: yes
   become_user: "{{ nvm.user }}"
   lineinfile: >
-    dest=~/.profile
+    dest=~/{{ item }}
     line="source ~/.nvm/nvm.sh"
     create=yes
+  with_items:
+    - .profile
+    - .bashrc
 
-- name: Install {{ nvm.node_version }}
-  shell: "nvm install {{ nvm.node_version }}"
+- name: Install Node {{ nvm.node_version }}
+  shell: "source ~/.nvm/nvm.sh && nvm install {{ nvm.node_version }}"
   become: yes
   become_user: "{{ nvm.user }}"
   args:
     executable: /bin/bash
   register: nvm_install_result
-  changed_when: "'is already installed.' not in nvm_install_result.stdout"
+  changed_when: "'is already installed.' not in nvm_install_result.stdout and 'is already installed.' not in nvm_install_result.stderr"
 
 - name: Check if {{ nvm.node_version }} is the default node version
-  shell: "nvm ls | grep -e 'default -> {{ nvm.node_version }}'"
+  shell: "source ~/.nvm/nvm.sh && nvm ls | grep -e 'default -> {{ nvm.node_version }}'"
   register: nvm_check_default
   become: yes
   become_user: "{{ nvm.user }}"
@@ -36,7 +39,7 @@
   failed_when: false
 
 - name: Set default node version to {{ nvm.node_version }}
-  shell: "nvm alias default {{ nvm.node_version }}"
+  shell: "source ~/.nvm/nvm.sh && nvm alias default {{ nvm.node_version }}"
   become: yes
   become_user: "{{ nvm.user }}"
   args:
