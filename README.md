@@ -14,8 +14,8 @@ Role Variables
 --------------
 
 * `nvm.user` Remote user. Defaults to ansible `remote_user`.
-* `nvm.version` nvm version tag, or `HEAD`. Defaults to `v0.4.0`
-* `nvm.node_version` Node.js version. Defaults to `'0.10.'`
+* `nvm.version` nvm version tag, or `HEAD`. Defaults to `v0.31.0`
+* `nvm.node_version` Node.js version. Defaults to `'v4.4.3'`
 
 Dependencies
 ------------
@@ -29,7 +29,7 @@ Example Playbook
       roles:
         - role: nvm
           nvm:
-            user: deploy
-            version: v0.4.0
-            node_version: '0.10'
+            user: node
+            version: v0.31.0
+            node_version: v4.4.3
 
