@@ -1,4 +1,11 @@
 ---
+- name: Ensure user's home exists
+  file:
+  args:
+    path: "~{{ nvm.user }}"
+    state: directory
+    owner: "{{ nvm.user }}"
+
 - name: Install nvm
   become: yes
   become_user: "{{ nvm.user }}"
